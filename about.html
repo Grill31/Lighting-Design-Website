@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiernan Grillo | About Me</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --container-bg: #1f2833;
+            --accent-color: #66fcf1;
+            --text-color: #c5c6c7;
+            --heading-color: #ffffff;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-color); 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--bg-color); 
+        }
+        header { 
+            background-color: #151922; 
+            padding: 2.5rem 0; 
+            text-align: center; 
+            border-bottom: 2px solid var(--container-bg); 
+        }
+        h1 { 
+            margin: 0; 
+            color: var(--heading-color); 
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            color: var(--accent-color);
+            margin: 0.5rem 0 1.5rem 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        nav a { 
+            margin: 0 1.2rem; 
+            color: var(--text-color); 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: color 0.3s;
+        }
+        nav a:hover { 
+            color: var(--accent-color); 
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 2.5rem auto; 
+            padding: 2.5rem; 
+            background: var(--container-bg); 
+            border-radius: 6px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+        h2 { 
+            color: var(--heading-color);
+            border-bottom: 2px solid var(--accent-color); 
+            padding-bottom: 0.5rem; 
+            margin-top: 0;
+        }
+        
+        /* Profile Layout Split */
+        .profile-layout {
+            display: flex;
+            gap: 2.5rem;
+            align-items: flex-start;
+            margin-top: 2rem;
+        }
+        .headshot-wrapper {
+            flex-shrink: 0;
+            width: 250px;
+        }
+        .headshot-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 2px solid #2c3848;
+            display: block;
+        }
+        .profile-text {
+            flex-grow: 1;
+        }
+        .profile-text p {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 0.6rem 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+        footer { 
+            text-align: center; 
+            padding: 3rem 0; 
+            color: #45f3ff; 
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        /* Mobile adjustments for the profile split */
+        @media (max-width: 650px) {
+            .profile-layout {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .headshot-wrapper {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Kiernan Grillo</h1>
+        <div class="subtitle">Lighting Design & Stage Management</div>
+        <nav>
+            <a href="index.html">Overview</a>
+            <a href="about.html">About Me</a>
+            <a href="resume.html">Resume</a>
+            <a href="gallery.html">Production Gallery</a>
+            <a href="index.html#contact">Connect</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>About Me & Technical Capability</h2>
+        
+        <div class="profile-layout">
+            <div class="headshot-wrapper">
+                <img src="./headshot.png" alt="Kiernan Grillo Headshot">
+            </div>
+            
+            <div class="profile-text">
+                <p>I focus on the rigorous, technical, and logistical demands of live theater. Specializing in theatrical lighting design, precise lighting programming, and highly proficient in using ETC Eos, I excel at turning creative concepts into flawless visual realities. My expertise spans both the creative lighting design process and the essential organizational workflows of stage management—from generating detailed production reports to managing complex backstage logistics and technical readiness.</p>
+                <p>Whether configuring complex rigs or running high-stakes live cues, I build my reputation on absolute reliability, technical precision, and a relentless focus on delivery.</p>
+                <p>On the logistical side, I specialize in the report-heavy administrative work that keeps a production timeline running smoothly. My methodology centers on generating highly structured production reports, managing backstage data tracking, and ensuring seamless communication between technical departments from initial load-in through final strike.</p>
+                
+                <a href="resume.html" class="btn">View Full Resume &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Kiernan Grillo. Built for Professional Stagecraft.</p>
+    </footer>
+
+</body>
+</html>
