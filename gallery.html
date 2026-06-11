@@ -88,7 +88,6 @@
             border-color: var(--accent-color);
         }
         
-        /* Default: Fills the box completely for production/scenery photos */
         .gallery-item img {
             width: 100%;
             height: 100%;
@@ -96,12 +95,22 @@
             display: block;
         }
 
-        /* NEW RULE: Forces technical sheets/plots to show the entire frame without cropping */
+        /* Automatically applies containment to plot/manifest filenames from Drive */
         .gallery-item img.contain-img {
             object-fit: contain;
-            background-color: #0f131a; /* Adds a dark padding block behind wide plots */
+            background-color: #0f131a;
             padding: 5px;
             box-sizing: border-box;
+        }
+
+        /* Loading Spinner */
+        .loading-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
         footer { 
@@ -129,55 +138,75 @@
 
     <div class="container">
         <h2>Design Showcase</h2>
-        <p>A comprehensive collection of my theatrical lighting design layouts, console programming frameworks, and verified production run states.</p>
+        <p>A dynamic, real-time look at my theatrical lighting setups, console plots, and live tracking sheets pulled directly from project storage.</p>
         
-        <div class="gallery-grid">
-            <div class="gallery-item"><img class="contain-img" src="626644043_1388809096374165_4891099881995029868_n.jpg" alt="Technical Plot Layout"></div>
-            <div class="gallery-item"><img class="contain-img" src="626804168_1388798989708509_5247564175030279874_n.jpg" alt="Harry Potter and the Cursed Child Light Plot"></div>
-            <div class="gallery-item"><img class="contain-img" src="627119362_1388809073040834_348246953472125405_n.jpg" alt="Technical Manifest"></div>
-            <div class="gallery-item"><img class="contain-img" src="656183737_1427458195842588_8007665677392159675_n.jpg" alt="Technical Layout"></div>
-            <div class="gallery-item"><img class="contain-img" src="657380992_1436175154970892_5088389571394957016_n.jpg" alt="Console Layout Screen"></div>
-            <div class="gallery-item"><img class="contain-img" src="9274F612-9C3A-4D53-9220-F308A1DD718DIMG_9481.JPEG" alt="Technical Capture"></div>
-
-            <div class="gallery-item"><img src="IMG_5940.jpeg" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_6178.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_6179.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_7886.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_7887.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_7888.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8531.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8532.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8674.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8675.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8676.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8677.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8678.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8679.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8680.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8681.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8682.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8683.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8684.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8685.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8686.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8687.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8688.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8689.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8690.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8691.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8692.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8693.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8694.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8695.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8696.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="IMG_8697.JPG" alt="Production Run Scene"></div>
-            <div class="gallery-item"><img src="Image 1.jpg" alt="Production Run Scene"></div>
+        <div class="gallery-grid" id="drive-gallery">
+            <div class="loading-text" id="loader">Syncing files with Google Drive...</div>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 Kiernan Grillo. Built for Professional Stagecraft.</p>
     </footer>
+
+    <script>
+        // Your Verified Public Folder ID
+        const FOLDER_ID = '1ORZXy_ndFt4rnJ0m9AYl53RNMMDg_X3J'; 
+        
+        async function loadDriveGallery() {
+            const galleryGrid = document.getElementById('drive-gallery');
+            const loader = document.getElementById('loader');
+            
+            try {
+                // Fetch the public list mapping layout from the folder endpoint
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://docs.google.com/feeds/download/folders/' + FOLDER_ID)}`);
+                if (!response.ok) throw new Error('Network response failed');
+                
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                const entries = xmlDoc.getElementsByTagName("entry");
+                
+                if (entries.length === 0) {
+                    loader.innerText = "Folder connection verified. Drag and drop images into your Google Drive folder to see them appear here.";
+                    return;
+                }
+                
+                galleryGrid.innerHTML = '';
+                
+                for (let i = 0; i < entries.length; i++) {
+                    const title = entries[i].getElementsByTagName("title")[0].textContent;
+                    const idUrl = entries[i].getElementsByTagName("id")[0].textContent;
+                    
+                    // Isolate the true file identification alphanumeric string
+                    const fileId = idUrl.split('?id=')[1] || idUrl.split('/').pop();
+                    
+                    // High-reliability open rendering thumbnail endpoint that forces native scale resolution parameters
+                    const webResolutionUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+                    
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'gallery-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = webResolutionUrl;
+                    img.alt = title;
+                    
+                    // Smart detection: if the file name starts with numbers (like your light plots), it forces contain mode
+                    if (/^\d/.test(title)) {
+                        img.className = 'contain-img';
+                    }
+                    
+                    itemDiv.appendChild(img);
+                    galleryGrid.appendChild(itemDiv);
+                }
+            } catch (error) {
+                console.error("Gallery system load error:", error);
+                loader.innerHTML = "Unable to automatically sync images.<br><br><a href='https://drive.google.com/drive/folders/" + FOLDER_ID + "' target='_blank' style='color: #66fcf1; text-decoration: none; font-weight: bold;'>Click Here to View My Production Drive Folder Directly &rarr;</a>";
+            }
+        }
+
+        window.onload = loadDriveGallery;
+    </script>
 
 </body>
 </html>
