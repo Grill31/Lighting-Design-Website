@@ -64,89 +64,38 @@
             margin-top: 0;
         }
         
-        /* Grid Layout Framework */
-        .gallery-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            gap: 1.5rem; 
-            margin-top: 1.5rem; 
-        }
-        
-        /* Interactive Box Constraints */
-        .gallery-item { 
-            background: #151922; 
-            height: 200px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 4px; 
-            border: 1px solid #2c3848; 
-            cursor: pointer;
-            transition: all 0.3s ease;
-            overflow: hidden; 
-        }
-        .gallery-item:hover {
-            border-color: var(--accent-color);
-            transform: scale(1.02);
-        }
-        
-        .gallery-item img {
+        /* Interactive Native Drive Frame Container */
+        .embed-container {
+            position: relative;
             width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            display: block;
-        }
-
-        /* Forces flat technical plots/sheets to show the full frame cleanly */
-        .gallery-item img.contain-img {
-            object-fit: contain;
-            background-color: #0f131a;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-
-        /* Loading Spinner */
-        .loading-text {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-            color: var(--accent-color);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* Custom Overlay Lightbox Window System */
-        .lightbox-overlay {
-            display: none; 
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(11, 12, 16, 0.95); 
-            justify-content: center;
-            align-items: center;
-        }
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 85%;
+            height: 650px; /* Provides an expansive scrolling view of your files */
+            margin-top: 1.5rem;
             border-radius: 4px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            object-fit: contain; 
+            border: 1px solid #2c3848;
+            overflow: hidden;
+            background: #151922;
         }
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 35px;
-            color: #ffffff;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.2s;
+        .embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-        .lightbox-close:hover {
+
+        .btn-drive {
+            display: inline-block;
+            background-color: transparent;
             color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 0.6rem 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-drive:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
         }
 
         footer { 
@@ -174,89 +123,20 @@
 
     <div class="container">
         <h2>Design Showcase</h2>
-        <p>Click on any lighting setup, technical layout, or run sheet below to expand it directly on screen.</p>
+        <p>An interactive, real-time look at my theatrical lighting setups, console plots, and live tracking sheets pulled directly from project storage.</p>
         
-        <div class="gallery-grid" id="drive-gallery">
-            <div class="loading-text" id="loader">Processing production layout data...</div>
+        <div class="embed-container">
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1ORZXy_ndFt4rnJ0m9AYl53RNMMDg_X3J#grid" allow="autoplay"></iframe>
         </div>
-    </div>
 
-    <div id="customLightbox" class="lightbox-overlay" onclick="closeLightbox()">
-        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <img class="lightbox-content" id="lightboxTargetImage" alt="Expanded Production Setup">
+        <div style="text-align: center;">
+            <a href="https://drive.google.com/drive/folders/1ORZXy_ndFt4rnJ0m9AYl53RNMMDg_X3J?usp=sharing" target="_blank" class="btn-drive">Open Drive Folder Directly &rarr;</a>
+        </div>
     </div>
 
     <footer>
         <p>&copy; 2026 Kiernan Grillo. Built for Professional Stagecraft.</p>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/gh/webcreate/gdrive-gallery@v1.0.3/dist/gdrive-gallery.min.js"></script>
-    <script>
-        const FOLDER_ID = '1ORZXy_ndFt4rnJ0m9AYl53RNMMDg_X3J'; 
-        
-        function loadDriveGallery() {
-            const galleryGrid = document.getElementById('drive-gallery');
-            const loader = document.getElementById('loader');
-            
-            // Call the library to handle cross-origin authentication parameters bypass automatically
-            GDriveGallery.init({
-                folderId: FOLDER_ID,
-                onSuccess: function(files) {
-                    if (!files || files.length === 0) {
-                        loader.innerText = "Connection verified. Drag your loose image files directly into the main root folder to see them appear.";
-                        return;
-                    }
-                    
-                    galleryGrid.innerHTML = '';
-                    
-                    files.forEach((file, index) => {
-                        // Isolate file elements
-                        const fileId = file.id;
-                        const title = file.name;
-                        
-                        const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
-                        const fullResolutionUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
-                        
-                        const itemDiv = document.createElement('div');
-                        itemDiv.className = 'gallery-item';
-                        itemDiv.setAttribute('data-fullsrc', fullResolutionUrl);
-                        itemDiv.onclick = function() { openLightbox(this); };
-                        
-                        const img = document.createElement('img');
-                        img.src = thumbUrl;
-                        img.alt = title || `Production Setup ${index + 1}`;
-                        
-                        // Smart layout rules check: if the filename starts with numbers, preserve full aspect containment
-                        if (/^\d/.test(title)) {
-                            img.className = 'contain-img';
-                        }
-                        
-                        itemDiv.appendChild(img);
-                        galleryGrid.appendChild(itemDiv);
-                    });
-                },
-                onError: function(error) {
-                    console.error("Data pipeline load exception:", error);
-                    loader.innerHTML = "Unable to load folder items automatically.<br><br><a href='https://drive.google.com/drive/folders/" + FOLDER_ID + "' target='_blank' style='color: #66fcf1; text-decoration: none; font-weight: bold;'>Click Here to View My Production Drive Folder Directly &rarr;</a>";
-                }
-            });
-        }
-
-        function openLightbox(element) {
-            const lightbox = document.getElementById('customLightbox');
-            const targetImg = document.getElementById('lightboxTargetImage');
-            const fullSource = element.getAttribute('data-fullsrc');
-            
-            targetImg.src = fullSource;
-            lightbox.style.display = 'flex';
-        }
-
-        function closeLightbox() {
-            document.getElementById('customLightbox').style.display = 'none';
-        }
-
-        window.onload = loadDriveGallery;
-    </script>
 
 </body>
 </html>
