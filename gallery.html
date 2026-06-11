@@ -50,7 +50,7 @@
             color: var(--accent-color); 
         }
         .container { 
-            max-width: 900px; 
+            max-width: 1000px; 
             margin: 2.5rem auto; 
             padding: 2.5rem; 
             background: var(--container-bg); 
@@ -63,12 +63,16 @@
             padding-bottom: 0.5rem; 
             margin-top: 0;
         }
+        
+        /* Grid Layout Framework */
         .gallery-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
             gap: 1.5rem; 
             margin-top: 1.5rem; 
         }
+        
+        /* Box Constraints */
         .gallery-item { 
             background: #151922; 
             height: 200px; 
@@ -76,13 +80,30 @@
             align-items: center; 
             justify-content: center; 
             border-radius: 4px; 
-            color: var(--text-color);
             border: 1px solid #2c3848; 
             transition: border-color 0.3s;
+            overflow: hidden; 
         }
         .gallery-item:hover {
             border-color: var(--accent-color);
         }
+        
+        /* Default: Fills the box completely for production/scenery photos */
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+        }
+
+        /* NEW RULE: Forces technical sheets/plots to show the entire frame without cropping */
+        .gallery-item img.contain-img {
+            object-fit: contain;
+            background-color: #0f131a; /* Adds a dark padding block behind wide plots */
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
         footer { 
             text-align: center; 
             padding: 3rem 0; 
@@ -98,26 +119,59 @@
         <h1>Kiernan Grillo</h1>
         <div class="subtitle">Production Gallery</div>
         <nav>
-              <a href="index.html">Overview</a>
-              <a href="about.html">About Me</a>
-              <a href="resume.html">Resume</a>
-              <a href="gallery.html">Production Gallery</a>
-              <a href="index.html#contact">Connect</a>
-</nav>
+            <a href="index.html">Overview</a>
+            <a href="about.html">About Me</a>
+            <a href="resume.html">Resume</a>
+            <a href="gallery.html">Production Gallery</a>
+            <a href="index.html#contact">Connect</a>
         </nav>
     </header>
 
     <div class="container">
         <h2>Design Showcase</h2>
-        <p>A collection of my lighting design work and production photography.</p>
-        <div class="gallery-grid">
-            <div class="gallery-item">Photo 1</div>
-            <div class="gallery-item">Photo 2<img src="626804168_1388798989708509_5247564175030279874_n.jpg"</div>
-            <div class="gallery-item">Photo 3</div>
-            <div class="gallery-item">Photo 4</div>
-            <div class="gallery-item">Photo 5</div>
-            <div class="gallery-item">Photo 6</div>
+        <p>A comprehensive collection of my theatrical lighting design layouts, console programming frameworks, and verified production run states.</p>
         
+        <div class="gallery-grid">
+            <div class="gallery-item"><img class="contain-img" src="626644043_1388809096374165_4891099881995029868_n.jpg" alt="Technical Plot Layout"></div>
+            <div class="gallery-item"><img class="contain-img" src="626804168_1388798989708509_5247564175030279874_n.jpg" alt="Harry Potter and the Cursed Child Light Plot"></div>
+            <div class="gallery-item"><img class="contain-img" src="627119362_1388809073040834_348246953472125405_n.jpg" alt="Technical Manifest"></div>
+            <div class="gallery-item"><img class="contain-img" src="656183737_1427458195842588_8007665677392159675_n.jpg" alt="Technical Layout"></div>
+            <div class="gallery-item"><img class="contain-img" src="657380992_1436175154970892_5088389571394957016_n.jpg" alt="Console Layout Screen"></div>
+            <div class="gallery-item"><img class="contain-img" src="9274F612-9C3A-4D53-9220-F308A1DD718DIMG_9481.JPEG" alt="Technical Capture"></div>
+
+            <div class="gallery-item"><img src="IMG_5940.jpeg" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_6178.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_6179.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_7886.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_7887.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_7888.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8531.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8532.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8674.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8675.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8676.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8677.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8678.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8679.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8680.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8681.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8682.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8683.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8684.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8685.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8686.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8687.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8688.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8689.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8690.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8691.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8692.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8693.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8694.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8695.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8696.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="IMG_8697.JPG" alt="Production Run Scene"></div>
+            <div class="gallery-item"><img src="Image 1.jpg" alt="Production Run Scene"></div>
         </div>
     </div>
 
