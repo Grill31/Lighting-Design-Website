@@ -72,13 +72,37 @@
             font-weight: bold;
             text-decoration: none;
             border-radius: 4px;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             transition: all 0.3s ease;
         }
         .btn:hover {
             background-color: var(--accent-color);
             color: var(--bg-color);
         }
+        
+        /* Contact List Styling */
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        .contact-list li {
+            margin-bottom: 0.7rem;
+            font-size: 1.05rem;
+        }
+        .contact-list strong {
+            color: #ffffff;
+        }
+        .contact-list a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-list a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+
         footer { 
             text-align: center; 
             padding: 3rem 0; 
@@ -116,7 +140,13 @@
     <div class="container" id="contact">
         <h2>Professional Inquiries</h2>
         <p>I am available for professional opportunities, internships, and project collaborations across lighting design, programming, stage management, and technical crew operations.</p>
-        <p>Let's discuss how I can bring reliable technical execution and sharp design to your next production.</p>
+        <p>Let's discuss how I can bring reliable technical execution and sharp design to your next production. Reach out via any of the channels below:</p>
+        
+        <ul class="contact-list">
+            <li><strong>Phone Number:</strong> <a href="tel:203-859-2188">203-859-2188</a></li>
+            <li><strong>Email:</strong> <a href="mailto:kiernangrillo.ct@gmail.com">kiernangrillo.ct@gmail.com</a></li>
+            <li><strong>School Email:</strong> <a href="mailto:kgrillo2027@notredamehs.com">kgrillo2027@notredamehs.com</a></li>
+        </ul>
         
         <a href="https://www.linkedin.com/in/kiernangrillo06516/" target="_blank" class="btn">Connect on LinkedIn</a>
     </div>
