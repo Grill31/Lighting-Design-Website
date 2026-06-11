@@ -64,7 +64,7 @@
             margin-top: 0;
         }
         
-        /* Grid Layout */
+        /* Grid Layout Framework */
         .gallery-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
@@ -81,13 +81,13 @@
             justify-content: center; 
             border-radius: 4px; 
             border: 1px solid #2c3848; 
-            cursor: pointer; /* Changes mouse cursor to indicator hand */
+            cursor: pointer;
             transition: all 0.3s ease;
             overflow: hidden; 
         }
         .gallery-item:hover {
             border-color: var(--accent-color);
-            transform: scale(1.02); /* Subtle pop effect on hover */
+            transform: scale(1.02);
         }
         
         .gallery-item img {
@@ -97,6 +97,7 @@
             display: block;
         }
 
+        /* Forces flat technical plots/sheets to show the full frame cleanly */
         .gallery-item img.contain-img {
             object-fit: contain;
             background-color: #0f131a;
@@ -104,7 +105,7 @@
             box-sizing: border-box;
         }
 
-        /* Loading Spinner State */
+        /* Loading Spinner */
         .loading-text {
             grid-column: 1 / -1;
             text-align: center;
@@ -114,16 +115,16 @@
             font-size: 1.2rem;
         }
 
-        /* --- Custom Overlay Lightbox Window System --- */
+        /* Custom Overlay Lightbox Window System */
         .lightbox-overlay {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed;
             z-index: 1000;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(11, 12, 16, 0.95); /* Deep dark background */
+            background-color: rgba(11, 12, 16, 0.95); 
             justify-content: center;
             align-items: center;
         }
@@ -132,7 +133,7 @@
             max-height: 85%;
             border-radius: 4px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            object-fit: contain; /* Keeps plots perfectly proportioned when expanded */
+            object-fit: contain; 
         }
         .lightbox-close {
             position: absolute;
@@ -192,62 +193,60 @@
     <script>
         const FOLDER_ID = '1ORZXy_ndFt4rnJ0m9AYl53RNMMDg_X3J'; 
         
-        // Use an alternate cloud storage configuration approach that sidesteps strict XML scrapers
         async function loadDriveGallery() {
             const galleryGrid = document.getElementById('drive-gallery');
             const loader = document.getElementById('loader');
             
             try {
-                // Fetch using an open configuration array that parses your public files seamlessly
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://docs.google.com/feeds/download/folders/' + FOLDER_ID)}`);
+                // Fetch using an optimized visualization extraction loop that reads folder contents securely
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://drive.google.com/embeddedfolderview?id=' + FOLDER_ID)}`);
                 if (!response.ok) throw new Error('Data pipeline drop');
                 
                 const data = await response.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const entries = xmlDoc.getElementsByTagName("entry");
                 
-                if (entries.length === 0) {
-                    loader.innerText = "Connection verified. No images found in folder root.";
+                // Use a secure matching look-ahead to capture long unique alphanumeric file IDs
+                const matches = [...data.contents.matchAll(/"([a-zA-Z0-9_-]{25,})"/g)];
+                const uniqueIds = [...new Set(matches.map(m => m[1]))].filter(id => 
+                    id !== FOLDER_ID && 
+                    !id.includes('embed') && 
+                    id !== 'grid' &&
+                    id.length > 25
+                );
+                
+                if (uniqueIds.length === 0) {
+                    loader.innerText = "Connection verified. Drag your loose image files directly into the main root folder (not inside sub-folders) to see them appear.";
                     return;
                 }
                 
                 galleryGrid.innerHTML = '';
                 
-                for (let i = 0; i < entries.length; i++) {
-                    const title = entries[i].getElementsByTagName("title")[0].textContent;
-                    const idUrl = entries[i].getElementsByTagName("id")[0].textContent;
-                    const fileId = idUrl.split('?id=')[1] || idUrl.split('/').pop();
-                    
-                    // High-resolution image sources for rendering inside thumbnails and popups
+                uniqueIds.forEach((fileId, index) => {
                     const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
                     const fullResolutionUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
                     
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'gallery-item';
-                    // Store the full resolution url inside the tile structure for the lightbox engine
                     itemDiv.setAttribute('data-fullsrc', fullResolutionUrl);
                     itemDiv.onclick = function() { openLightbox(this); };
                     
                     const img = document.createElement('img');
                     img.src = thumbUrl;
-                    img.alt = title;
+                    img.alt = `Production Setup ${index + 1}`;
                     
-                    // Smart layout handler: prevents numeric plot/manifest file sheets from cutting off
-                    if (/^\d/.test(title)) {
-                        img.className = 'contain-img';
+                    // Layout constraint fallback: sets contain mode for the first 6 files (your technical sheets/plots)
+                    if (index < 6) { 
+                        img.className = 'contain-img'; 
                     }
                     
                     itemDiv.appendChild(img);
                     galleryGrid.appendChild(itemDiv);
-                }
+                });
             } catch (error) {
-                console.error(error);
+                console.error("Data tracking failure:", error);
                 loader.innerHTML = "Unable to load folder items automatically.<br><br><a href='https://drive.google.com/drive/folders/" + FOLDER_ID + "' target='_blank' style='color: #66fcf1; text-decoration: none; font-weight: bold;'>Click Here to View My Production Drive Folder Directly &rarr;</a>";
             }
         }
 
-        // Lightbox Popup Control Mechanics
         function openLightbox(element) {
             const lightbox = document.getElementById('customLightbox');
             const targetImg = document.getElementById('lightboxTargetImage');
