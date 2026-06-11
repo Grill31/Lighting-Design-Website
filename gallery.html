@@ -190,61 +190,56 @@
         <p>&copy; 2026 Kiernan Grillo. Built for Professional Stagecraft.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/gh/webcreate/gdrive-gallery@v1.0.3/dist/gdrive-gallery.min.js"></script>
     <script>
         const FOLDER_ID = '1ORZXy_ndFt4rnJ0m9AYl53RNMMDg_X3J'; 
         
-        async function loadDriveGallery() {
+        function loadDriveGallery() {
             const galleryGrid = document.getElementById('drive-gallery');
             const loader = document.getElementById('loader');
             
-            try {
-                // Fetch using an optimized visualization extraction loop that reads folder contents securely
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://drive.google.com/embeddedfolderview?id=' + FOLDER_ID)}`);
-                if (!response.ok) throw new Error('Data pipeline drop');
-                
-                const data = await response.json();
-                
-                // Use a secure matching look-ahead to capture long unique alphanumeric file IDs
-                const matches = [...data.contents.matchAll(/"([a-zA-Z0-9_-]{25,})"/g)];
-                const uniqueIds = [...new Set(matches.map(m => m[1]))].filter(id => 
-                    id !== FOLDER_ID && 
-                    !id.includes('embed') && 
-                    id !== 'grid' &&
-                    id.length > 25
-                );
-                
-                if (uniqueIds.length === 0) {
-                    loader.innerText = "Connection verified. Drag your loose image files directly into the main root folder (not inside sub-folders) to see them appear.";
-                    return;
-                }
-                
-                galleryGrid.innerHTML = '';
-                
-                uniqueIds.forEach((fileId, index) => {
-                    const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
-                    const fullResolutionUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
-                    
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'gallery-item';
-                    itemDiv.setAttribute('data-fullsrc', fullResolutionUrl);
-                    itemDiv.onclick = function() { openLightbox(this); };
-                    
-                    const img = document.createElement('img');
-                    img.src = thumbUrl;
-                    img.alt = `Production Setup ${index + 1}`;
-                    
-                    // Layout constraint fallback: sets contain mode for the first 6 files (your technical sheets/plots)
-                    if (index < 6) { 
-                        img.className = 'contain-img'; 
+            // Call the library to handle cross-origin authentication parameters bypass automatically
+            GDriveGallery.init({
+                folderId: FOLDER_ID,
+                onSuccess: function(files) {
+                    if (!files || files.length === 0) {
+                        loader.innerText = "Connection verified. Drag your loose image files directly into the main root folder to see them appear.";
+                        return;
                     }
                     
-                    itemDiv.appendChild(img);
-                    galleryGrid.appendChild(itemDiv);
-                });
-            } catch (error) {
-                console.error("Data tracking failure:", error);
-                loader.innerHTML = "Unable to load folder items automatically.<br><br><a href='https://drive.google.com/drive/folders/" + FOLDER_ID + "' target='_blank' style='color: #66fcf1; text-decoration: none; font-weight: bold;'>Click Here to View My Production Drive Folder Directly &rarr;</a>";
-            }
+                    galleryGrid.innerHTML = '';
+                    
+                    files.forEach((file, index) => {
+                        // Isolate file elements
+                        const fileId = file.id;
+                        const title = file.name;
+                        
+                        const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
+                        const fullResolutionUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
+                        
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'gallery-item';
+                        itemDiv.setAttribute('data-fullsrc', fullResolutionUrl);
+                        itemDiv.onclick = function() { openLightbox(this); };
+                        
+                        const img = document.createElement('img');
+                        img.src = thumbUrl;
+                        img.alt = title || `Production Setup ${index + 1}`;
+                        
+                        // Smart layout rules check: if the filename starts with numbers, preserve full aspect containment
+                        if (/^\d/.test(title)) {
+                            img.className = 'contain-img';
+                        }
+                        
+                        itemDiv.appendChild(img);
+                        galleryGrid.appendChild(itemDiv);
+                    });
+                },
+                onError: function(error) {
+                    console.error("Data pipeline load exception:", error);
+                    loader.innerHTML = "Unable to load folder items automatically.<br><br><a href='https://drive.google.com/drive/folders/" + FOLDER_ID + "' target='_blank' style='color: #66fcf1; text-decoration: none; font-weight: bold;'>Click Here to View My Production Drive Folder Directly &rarr;</a>";
+                }
+            });
         }
 
         function openLightbox(element) {
