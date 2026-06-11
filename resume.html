@@ -12,30 +12,35 @@
             --text-color: #c5c6c7;
             --heading-color: #ffffff;
         }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--bg-color);
+            overflow: hidden; /* Prevents double scrollbars on the main page */
+        }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            line-height: 1.6; 
-            color: var(--text-color); 
-            margin: 0; 
-            padding: 0; 
-            background-color: var(--bg-color); 
+            display: flex;
+            flex-direction: column;
         }
         header { 
             background-color: #151922; 
-            padding: 2.5rem 0; 
+            padding: 1.5rem 0; 
             text-align: center; 
             border-bottom: 2px solid var(--container-bg); 
+            flex-shrink: 0; /* Keeps the header from squishing */
         }
         h1 { 
             margin: 0; 
             color: var(--heading-color); 
-            font-size: 2.5rem;
+            font-size: 2rem;
             letter-spacing: 1px;
         }
         .subtitle {
             color: var(--accent-color);
-            margin: 0.5rem 0 1.5rem 0;
-            font-size: 1.2rem;
+            margin: 0.3rem 0 1rem 0;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -49,89 +54,16 @@
         nav a:hover { 
             color: var(--accent-color); 
         }
-        .container { 
-            max-width: 900px; 
-            margin: 2.5rem auto; 
-            padding: 2.5rem; 
-            background: var(--container-bg); 
-            border-radius: 6px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        .resume-view-container {
+            flex-grow: 1; /* Automatically stretches to fill the remaining screen height */
+            width: 100%;
+            background-color: #525659; /* Standard PDF viewer background color */
         }
-        h2 { 
-            color: var(--heading-color);
-            border-bottom: 2px solid var(--accent-color); 
-            padding-bottom: 0.5rem; 
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-        }
-        h3 {
-            color: #ffffff;
-            margin-bottom: 0.3rem;
-            margin-top: 0;
-        }
-        .download-bar {
-            text-align: right;
-            margin-bottom: 2rem;
-        }
-        .resume-section {
-            margin-bottom: 2.5rem;
-        }
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        .skills-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .skills-list li {
-            margin-bottom: 0.6rem;
-            padding-left: 1.2rem;
-            position: relative;
-        }
-        .skills-list li::before {
-            content: "▪";
-            color: var(--accent-color);
-            position: absolute;
-            left: 0;
-        }
-        .job-entry {
-            margin-bottom: 2rem;
-            border-left: 3px solid #2c3848;
-            padding-left: 1.2rem;
-        }
-        .job-meta {
-            color: var(--accent-color);
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .btn {
-            display: inline-block;
-            background-color: transparent;
-            color: var(--accent-color);
-            border: 2px solid var(--accent-color);
-            padding: 0.6rem 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .btn:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-        }
-        footer { 
-            text-align: center; 
-            padding: 3rem 0; 
-            color: #45f3ff; 
-            font-size: 0.9rem;
-            opacity: 0.6;
-        }
-        @media (max-width: 600px) {
-            .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
+        .resume-view-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
         }
     </style>
 </head>
@@ -148,66 +80,9 @@
         </nav>
     </header>
 
-    <div class="container">
-        <div class="download-bar">
-            <a href="./resume.pdf" target="_blank" class="btn">Download PDF Version</a>
-        </div>
-
-        <div class="resume-section">
-            <h2>Core Competencies & Software</h2>
-            <div class="skills-grid">
-                <div>
-                    <h3>Lighting & Stagecraft</h3>
-                    <ul class="skills-list">
-                        <li>Theatrical Lighting Design</li>
-                        <li>Advanced Cue Programming & Live Busking</li>
-                        <li>Rigging & Systems Automation</li>
-                        <li>Stage Crew Operations & Safety Logistics</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Software & Systems</h3>
-                    <ul class="skills-list">
-                        <li>ETC Eos Family Consoles (Certified)</li>
-                        <li>QLab Audio/Video Control</li>
-                        <li>Production Logging & Reporting (Excel, Word)</li>
-                        <li>Google Workspace Integration</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="resume-section">
-            <h2>Selected Production Credits</h2>
-            
-            <div class="job-entry">
-                <h3>You Can’t Take It with You</h3>
-                <div class="job-meta">Artistic Director | Assistant Stage Manager | Lighting Designer & Programmer</div>
-                <p>Managed backstage logistical coordination and technical layout. Programmed comprehensive light plots and executed real-time cue structures to match dynamic blocking demands.</p>
-            </div>
-
-            <div class="job-entry">
-                <h3>Curtains</h3>
-                <div class="job-meta">Artistic Director | Deputy Stage Manager | Lighting Designer & Programmer</div>
-                <p>Oversaw the detailed execution of calling scripts, master tracking layouts, and production data tables. Formulated and ran complex multi-scene lighting environments.</p>
-            </div>
-
-            <div class="job-entry">
-                <h3>Harry Potter and the Cursed Child</h3>
-                <div class="job-meta">Theatrical Lighting Designer & Programmer</div>
-                <p>Designed and structured a high-intensity, multi-layered atmospheric lighting scheme requiring precise timing sequences and deep console macro integration.</p>
-            </div>
-        </div>
-
-        <div class="resume-section">
-            <h2>Logistics & Stage Management Focus</h2>
-            <p>A major focus of my operational methodology centers on the administrative and report-heavy responsibilities essential to a smooth production timeline. I excel at generating clear, detailed production reports, tracking structural changes, and maintaining complete continuity records across rehearsals and live runs. My approach prioritizes direct capability, clear communication channels, and total technical reliability from load-in to strike.</p>
-        </div>
+    <div class="resume-view-container">
+        <iframe src="./resume.pdf"></iframe>
     </div>
-
-    <footer>
-        <p>&copy; 2026 Kiernan Grillo. Built for Professional Stagecraft.</p>
-    </footer>
 
 </body>
 </html>
