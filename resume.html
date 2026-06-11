@@ -62,14 +62,16 @@
             border-bottom: 2px solid var(--accent-color); 
             padding-bottom: 0.5rem; 
             margin-top: 0;
+            margin-bottom: 1.5rem;
         }
         h3 {
             color: #ffffff;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
+            margin-top: 0;
         }
         .download-bar {
             text-align: right;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         .resume-section {
             margin-bottom: 2.5rem;
@@ -77,7 +79,7 @@
         .skills-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 2rem;
         }
         .skills-list {
             list-style: none;
@@ -85,8 +87,8 @@
             margin: 0;
         }
         .skills-list li {
-            margin-bottom: 0.5rem;
-            padding-left: 1rem;
+            margin-bottom: 0.6rem;
+            padding-left: 1.2rem;
             position: relative;
         }
         .skills-list li::before {
@@ -96,9 +98,9 @@
             left: 0;
         }
         .job-entry {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             border-left: 3px solid #2c3848;
-            padding-left: 1rem;
+            padding-left: 1.2rem;
         }
         .job-meta {
             color: var(--accent-color);
@@ -129,7 +131,7 @@
             opacity: 0.6;
         }
         @media (max-width: 600px) {
-            .skills-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
         }
     </style>
 </head>
